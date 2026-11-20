@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Yaşar Manifatura</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="logo-area">
+        <img src="logo.png" class="logo">
+    </div>
+
+    <nav class="menu">
+        <a href="javascript:void(0)" onclick="showHome()">Ana Sayfa</a>
+        <a href="javascript:void(0)" onclick="showAllProducts()">Ürünler</a>
+        <a href="javascript:void(0)" onclick="showAbout()">Hakkımızda</a>
+        <a href="#">İletişim</a>
+    </nav>
+</header>
+
+<!-- SLAYT (HERO) ALANI -->
+<section class="hero" id="heroSlider">
+    <h1>YAŞAR MANİFATURA</h1>
+    <p>Toptan & Perakende Tekstil</p>
+</section>
+
+<!-- ARAMA MOTORU (Ürünler sayfasına geçince görünür) -->
+<div class="search-container" id="searchContainer" style="display:none;">
+    <input type="text" id="searchInput" placeholder="Kategori ara..." oninput="handleSearch()">
+</div>
+
+<!-- KATEGORİLER -->
+<section class="categories" id="categories">
+    <div class="category-card" onclick="filterProducts('Nevresim')">Nevresim Takımları</div>
+    <div class="category-card" onclick="filterProducts('Yorgan')">Yorganlar</div>
+    <div class="category-card" onclick="filterProducts('Yastık')">Yastıklar</div>
+    <div class="category-card" onclick="filterProducts('Koltuk')">Koltuk Örtüleri</div>
+    <div class="category-card" onclick="filterProducts('Alez')">ALEZ & YATAK KORUMA</div>
+    <div class="category-card" onclick="filterProducts('Battaniye')">BATTANİYE</div>
+    <div class="category-card" onclick="filterProducts('Koltuk')">ÇEKYAT ÖRTÜSÜ & OTURMA GRUBU</div>
+    <div class="category-card" onclick="filterProducts('Cesitli')">ÇEŞİTLİ ÜRÜNLER</div>
+    <div class="category-card" onclick="filterProducts('Ceyiz')">ÇEYİZ ÜRÜNLERİ</div>
+    <div class="category-card" onclick="filterProducts('Elektrikli')">ELEKTRİKLİ BATTANİYE</div>
+    <div class="category-card" onclick="filterProducts('Elyaf')">ELYAF</div>
+    <div class="category-card" onclick="filterProducts('Hurc')">HURÇ</div>
+    <div class="category-card" onclick="filterProducts('Havlu')">HAVLU & BORNOZ</div>
+    <div class="category-card" onclick="filterProducts('Kumas')">KUMAŞ MT</div>
+    <div class="category-card" onclick="filterProducts('Kilim')">KİLİM & SAVAN & SOFRABEZİ</div>
+    <div class="category-card" onclick="filterProducts('Masa')">MASA ÖRTÜSÜ</div>
+    <div class="category-card" onclick="filterProducts('Nevresim')">NEVRESİM GRUBU</div>
+    <div class="category-card" onclick="filterProducts('Pike')">PİKE</div>
+    <div class="category-card" onclick="filterProducts('Paspas')">PASPAS & KLOZET TAKIMI</div>
+    <div class="category-card" onclick="filterProducts('Seccade')">SECCADE</div>
+    <div class="category-card" onclick="filterProducts('Sandik')">SANDIK</div>
+    <div class="category-card" onclick="filterProducts('Perde')">TÜL & PERDE & GÜNEŞLİK</div>
+    <div class="category-card" onclick="filterProducts('Polar')">POLAR</div>
+    <div class="category-card" onclick="filterProducts('Hali')">HALI & YOLLUK GRUPLARI</div>
+    <div class="category-card" onclick="filterProducts('Yastik')">YASTIK & YORGAN & MİNDER</div>
+    <div class="category-card" onclick="filterProducts('Yatak')">YATAK ÖRTÜSÜ & PİKE TAKIMI</div>
+</section>
+
+<!-- ÜRÜNLER -->
+<section class="products" id="productList" style="display:none"></section>
+
+<button id="loadMoreBtn" onclick="loadMore()" style="display:none;">
+    Daha Fazla
+</button>
+
+<!-- HAKKIMIZDA -->
+<section class="about-page" id="aboutPage" style="display:none;">
+    <h1>Hakkımızda</h1>
+
+    <p>
+        Yaşar Manifatura, ev tekstili sektöründe kalite standartlarını esas alarak
+        faaliyet gösteren, güvenilir ve müşteri odaklı bir firmadır.
+    </p>
+
+    <ul>
+        <li>Geniş ürün yelpazesi</li>
+        <li>Toptan & perakende satış</li>
+        <li>Kalite ve müşteri memnuniyeti</li>
+        <li>Güvenilir ticaret anlayışı</li>
+    </ul>
+</section>
+
+<footer class="footer">
+    © 2025 Yaşar Manifatura – Tüm Hakları Saklıdır        
+    <div class="made-by">ErtuStudio tarafından yapılmıştır</div>
+</footer>
+  
+<audio id="bgMusic"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
