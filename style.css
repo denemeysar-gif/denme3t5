@@ -1,0 +1,340 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ALTTA BOŞLUK OLMASIN */
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    background: #fff;
+    color: #111;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER - PC'DE SOL LOGO / SAĞ MENÜ */
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 40px;
+    background: #f7f7f7;
+    border-bottom: 2px solid #c40000;
+    width: 100%;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+}
+
+/* LOGO EBATI (PC) */
+.logo {
+    width: 340px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+/* MENU - PC'DE SAĞDA YAN YANA */
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.menu a {
+    margin-left: 0;
+    text-decoration: none;
+    color: #c40000;
+    font-weight: 800;
+    font-size: 16px;
+}
+
+.menu a:hover {
+    text-decoration: underline;
+}
+
+/* HERO (SLAYT ALANI - PC'DE FOTOĞRAFLARIN KESİLMEMESİ İÇİN EKRANA ORANTILI) */
+.hero {
+    width: 100%;
+    height: 36vw;
+    min-height: 380px;
+    max-height: 620px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    transition: background-image 1s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+
+.hero h1 {
+    color: #fff;
+    font-size: 42px;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+    position: relative;
+    z-index: 2;
+    padding: 0 15px;
+}
+
+.hero p {
+    color: #eee;
+    margin-top: 10px;
+    font-size: 18px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+    position: relative;
+    z-index: 2;
+    padding: 0 15px;
+}
+
+/* ARAMA ÇUBUĞU */
+.search-container {
+    width: 100%;
+    max-width: 2400px;
+    margin: 0 auto;
+    padding: 30px 50px 0 50px;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 18px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+}
+
+#searchInput:focus {
+    border-color: #c40000;
+}
+
+/* KATEGORİLER */
+.categories {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    width: 100%;         
+    max-width: 2400px;    
+    margin: 0 auto;       
+    padding: 50px;
+}
+
+.category-card {
+    height: 160px;      
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: #0f0f0f;
+    color: #fff;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.category-card:hover {
+    background: #c40000;
+}
+
+/* PRODUCTS */
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 25px;
+    padding: 50px;
+    max-width: 2400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.product-card {
+    background: #1b1b1b;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px rgba(196,0,0,0.4);
+}
+
+.product-img {
+    height: 200px;
+    background: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+}
+
+.product-info {
+    padding: 15px;
+}
+
+.product-info h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.price {
+    color: #c40000;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.product-info button {
+    width: 100%;
+    padding: 10px;
+    background: #c40000;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.product-info button:hover {
+    background: #a00000;
+}
+
+/* HAKKIMIZDA */
+.about-page {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 30px;
+    line-height: 1.8;
+}
+
+.about-page h1 {
+    color: #c40000;
+    margin-bottom: 20px;
+    font-size: 36px;
+}
+
+.about-page p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.about-page ul {
+    margin-left: 20px;
+    font-size: 18px;
+}
+
+.about-page li {
+    margin-bottom: 10px;
+}
+
+/* LOAD MORE */
+#loadMoreBtn {
+    display: block;
+    margin: 40px auto 60px auto;
+    padding: 18px 50px;
+    font-size: 20px;
+    font-weight: bold;
+    background: #c40000;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#loadMoreBtn:hover {
+    background: #a00000;
+    transform: scale(1.05);
+}
+
+/* FOOTER */
+.footer {
+    background: #000;
+    color: #777;
+    text-align: center;
+    padding: 20px;
+    margin-top: auto;
+}
+
+/* ================= MOBİL (KENARLARA TAM YAPIŞIK LOGO + ALTINDA MENÜ) ================= */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        justify-content: center;
+        padding: 0; /* Üst, sağ ve sol boşluklar tamamen sıfırlandı */
+        gap: 0;
+    }
+
+    .logo-area {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .logo {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        display: block; /* Alttaki ince satır boşluğunu da siler */
+    }
+
+    .menu {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+        padding: 12px 10px; /* Menü kendi içinde nefes alsın ama logo ile arasında boşluk kalmasın */
+    }
+
+    .menu a {
+        font-size: 14px;
+    }
+
+    .hero {
+        height: 55vw;
+        min-height: 220px;
+        max-height: 320px;
+    }
+
+    .hero h1 {
+        font-size: 26px;
+    }
+
+    .hero p {
+        font-size: 15px;
+    }
+
+    .search-container {
+        padding: 20px 20px 0 20px;
+    }
+
+    .categories,
+    .products {
+        grid-template-columns: 1fr;
+        padding: 30px 20px;
+    }
+
+    .category-card {
+        padding: 30px 15px;
+        font-size: 18px;
+    }
+
+    .product-img {
+        height: 160px;
+    }
+}
