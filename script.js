@@ -794,7 +794,7 @@ async function veriliHtmlIndir() {
     if (urunler.length === 0) { alert("Listede hiç ürün yok! Önce ürün ekleyin."); return; }
     let cssMetin = "", jsMetin = "";
     try {
-        const [cssRes, jsRes] = await Promise.all([fetch('style.css'), fetch('app.js')]);
+        const [cssRes, jsRes] = await Promise.all([fetch('style.css'), fetch('script.js')]);
         cssMetin = await cssRes.text();
         jsMetin = await jsRes.text();
     } catch (e) {
@@ -819,7 +819,7 @@ async function veriliHtmlIndir() {
     }
     if (jsMetin) {
         jsMetin = jsMetin.replace(/const GOMULU_VERI = [\s\S]*?;/, `const GOMULU_VERI = ${paket};`);
-        const jsScript = klon.querySelector('script[src="app.js"]');
+        const jsScript = klon.querySelector('script[src="script.js"]');
         if (jsScript) { const sc = document.createElement('script'); sc.textContent = jsMetin; jsScript.replaceWith(sc); }
     } else {
         klon.querySelectorAll('script').forEach(sc => {
