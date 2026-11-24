@@ -2,98 +2,242 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Yaşar Manifatura</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ertu Fiyat Listesi</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header class="header">
-    <div class="logo-area">
-        <img src="logo.png" class="logo">
+<div id="girisEkrani" class="login-overlay">
+    <div class="login-box">
+        <h2 id="girisFirmaBaslik">Fiyat Listesi Girişi</h2>
+        <p>Firma kodunu girip kullanıcı seçin</p>
+        <div class="login-field">
+            <label>Firma Kodu</label>
+            <div style="display:flex;gap:4px;">
+                <input type="text" id="girisFirmaKodu" value="ertu" placeholder="Örn: ertu" style="flex:1;text-transform:lowercase;" onkeyup="if(event.key==='Enter') firmaVerisiniYukle()">
+                <button type="button" class="btn-teal" onclick="firmaVerisiniYukle()">Getir</button>
+            </div>
+        </div>
+        <div class="login-field">
+            <label>Kullanıcı</label>
+            <select id="girisKullaniciSec" onchange="document.getElementById('girisHata').innerText=''">
+                <option value="yonetici">Yönetici (Tüm Alanlar)</option>
+                <option value="plasiyer">Satış Personeli (Satış 1)</option>
+            </select>
+        </div>
+        <div class="login-field">
+            <label>Şifre</label>
+            <input type="password" id="girisSifreInput" placeholder="Şifrenizi yazın" onkeyup="if(event.key==='Enter') girisYap()">
+        </div>
+        <button class="btn-login" onclick="girisYap()">Giriş Yap</button>
+        <div id="girisHata" class="login-err"></div>
     </div>
-
-    <nav class="menu">
-        <a href="javascript:void(0)" onclick="showHome()">Ana Sayfa</a>
-        <a href="javascript:void(0)" onclick="showAllProducts()">Ürünler</a>
-        <a href="javascript:void(0)" onclick="showAbout()">Hakkımızda</a>
-        <a href="#">İletişim</a>
-    </nav>
-</header>
-
-<!-- SLAYT (HERO) ALANI -->
-<section class="hero" id="heroSlider">
-    <h1>YAŞAR MANİFATURA</h1>
-    <p>Toptan & Perakende Tekstil</p>
-</section>
-
-<!-- ARAMA MOTORU (Ürünler sayfasına geçince görünür) -->
-<div class="search-container" id="searchContainer" style="display:none;">
-    <input type="text" id="searchInput" placeholder="Kategori ara..." oninput="handleSearch()">
 </div>
 
-<!-- KATEGORİLER -->
-<section class="categories" id="categories">
-    <div class="category-card" onclick="filterProducts('Nevresim')">Nevresim Takımları</div>
-    <div class="category-card" onclick="filterProducts('Yorgan')">Yorganlar</div>
-    <div class="category-card" onclick="filterProducts('Yastık')">Yastıklar</div>
-    <div class="category-card" onclick="filterProducts('Koltuk')">Koltuk Örtüleri</div>
-    <div class="category-card" onclick="filterProducts('Alez')">ALEZ & YATAK KORUMA</div>
-    <div class="category-card" onclick="filterProducts('Battaniye')">BATTANİYE</div>
-    <div class="category-card" onclick="filterProducts('Koltuk')">ÇEKYAT ÖRTÜSÜ & OTURMA GRUBU</div>
-    <div class="category-card" onclick="filterProducts('Cesitli')">ÇEŞİTLİ ÜRÜNLER</div>
-    <div class="category-card" onclick="filterProducts('Ceyiz')">ÇEYİZ ÜRÜNLERİ</div>
-    <div class="category-card" onclick="filterProducts('Elektrikli')">ELEKTRİKLİ BATTANİYE</div>
-    <div class="category-card" onclick="filterProducts('Elyaf')">ELYAF</div>
-    <div class="category-card" onclick="filterProducts('Hurc')">HURÇ</div>
-    <div class="category-card" onclick="filterProducts('Havlu')">HAVLU & BORNOZ</div>
-    <div class="category-card" onclick="filterProducts('Kumas')">KUMAŞ MT</div>
-    <div class="category-card" onclick="filterProducts('Kilim')">KİLİM & SAVAN & SOFRABEZİ</div>
-    <div class="category-card" onclick="filterProducts('Masa')">MASA ÖRTÜSÜ</div>
-    <div class="category-card" onclick="filterProducts('Nevresim')">NEVRESİM GRUBU</div>
-    <div class="category-card" onclick="filterProducts('Pike')">PİKE</div>
-    <div class="category-card" onclick="filterProducts('Paspas')">PASPAS & KLOZET TAKIMI</div>
-    <div class="category-card" onclick="filterProducts('Seccade')">SECCADE</div>
-    <div class="category-card" onclick="filterProducts('Sandik')">SANDIK</div>
-    <div class="category-card" onclick="filterProducts('Perde')">TÜL & PERDE & GÜNEŞLİK</div>
-    <div class="category-card" onclick="filterProducts('Polar')">POLAR</div>
-    <div class="category-card" onclick="filterProducts('Hali')">HALI & YOLLUK GRUPLARI</div>
-    <div class="category-card" onclick="filterProducts('Yastik')">YASTIK & YORGAN & MİNDER</div>
-    <div class="category-card" onclick="filterProducts('Yatak')">YATAK ÖRTÜSÜ & PİKE TAKIMI</div>
-</section>
+<div id="kameraModal" class="cam-overlay" style="display:none;">
+    <div class="cam-box">
+        <div class="cam-header">
+            <strong>📷 Barkod veya Etiket Yazısı Okut</strong>
+            <button type="button" class="btn-sm-del" onclick="kamerayiKapat()">Kapat ✕</button>
+        </div>
+        <video id="kameraVideo" autoplay playsinline></video>
+        <canvas id="kameraCanvas" style="display:none;"></canvas>
+        <div id="kameraDurum" class="cam-status">Barkodu kameraya tutun veya aşağıdaki butona basıp ürün ismini okuyun...</div>
+        <div class="cam-actions">
+            <button type="button" class="btn-primary" style="flex:1;" onclick="etiketMetniOku()">🔤 Ürün İsmini / Yazıyı Oku</button>
+        </div>
+    </div>
+</div>
 
-<!-- ÜRÜNLER -->
-<section class="products" id="productList" style="display:none"></section>
+<div id="anaEkran" class="container">
+    <div class="top-bar">
+        <div class="top-left">
+            <h2 id="anaFirmaBaslik">Fiyat Listesi</h2>
+            <span id="aktifKullaniciEtiket" class="active-user-tag"></span>
+            <span id="bulutDurumEtiket" style="font-size:11px;font-weight:700;color:#15803d;">☁️ Hazır</span>
+        </div>
+        <div class="user-controls">
+            <button class="btn-info" onclick="buluttanYenile()" title="Güncel Fiyatları Çek">🔄 Yenile</button>
+            <button class="btn-admin" id="btnYonetim" onclick="yonetimPaneliAcKapat()">Yönetim</button>
+            <button class="btn-logout" onclick="cikisYap()">Çıkış</button>
+        </div>
+    </div>
 
-<button id="loadMoreBtn" onclick="loadMore()" style="display:none;">
-    Daha Fazla
-</button>
+    <div id="yonetimPaneli" class="admin-panel">
+        <div class="tab-bar">
+            <button type="button" class="tab-btn active" id="tabBtn_urun" onclick="sekmeDegistir('urun')">📦 Ürün & Fiyat İşlemleri</button>
+            <button type="button" class="tab-btn" id="tabBtn_personel" onclick="sekmeDegistir('personel')">👥 Personel & Yetkiler</button>
+            <button type="button" class="tab-btn" id="tabBtn_firma" onclick="sekmeDegistir('firma')" style="display:none;">🏢 Firma Yönetimi</button>
+        </div>
 
-<!-- HAKKIMIZDA -->
-<section class="about-page" id="aboutPage" style="display:none;">
-    <h1>Hakkımızda</h1>
+        <div id="sekme_urun" class="tab-content active">
+            <div class="admin-section">
+                <h3>1. Yeni Ürün Ekle & Dosya İşlemleri</h3>
+                <div class="form-grid">
+                    <div class="form-group"><label>Stok Kodu</label><input type="text" id="stokKodu"></div>
+                    <div class="form-group"><label>Barkod</label><input type="text" id="barkod"></div>
+                    <div class="form-group"><label>Ürün İsmi *</label><input type="text" id="urunIsmi"></div>
+                    <div class="form-group"><label>Açıklama / Not</label><input type="text" id="urunAciklama"></div>
+                    <div class="form-group"><label>Alış (Otomatik Hesaplar)</label><input type="number" id="alisFiyat" step="0.01" oninput="yeniUrunOtomatikHesapla()"></div>
+                    <div class="form-group"><label>Satış 1</label><input type="number" id="satisFiyat1" step="0.01"></div>
+                    <div class="form-group"><label>Satış 2</label><input type="number" id="satisFiyat2" step="0.01"></div>
+                    <div class="form-group"><label>Satış 3</label><input type="number" id="satisFiyat3" step="0.01"></div>
+                    <div class="form-group"><label>Satış 4</label><input type="number" id="satisFiyat4" step="0.01"></div>
+                    <div class="form-group" style="justify-content:flex-end;">
+                        <label class="hide-check-label"><input type="checkbox" id="yeniUrunGizli"> 🙈 Personelden Gizle</label>
+                    </div>
+                </div>
+                                <div class="btn-toolbar">
+                    <button class="btn-primary" onclick="urunEkle()">+ Ürün Ekle</button>
+                    <button class="btn-teal" onclick="document.getElementById('excelDosya').click()">Excel Yükle (CSV)</button>
+                    <input type="file" id="excelDosya" accept=".csv,.txt" style="display:none;" onchange="exceldenYukle(event)">
+                    <button class="btn-gray" onclick="sablonIndir()">CSV Şablon</button>
+                    <button class="btn-success" onclick="excelAktar(false)">Excel İndir (Tümü)</button>
+                    <button class="btn-danger" onclick="pdfAktar(false)">📄 PDF İndir (Tümü)</button>
+                    <button class="btn-teal" onclick="excelAktar(true)">☑️ Seçilenleri Excel (<span class="seciliSayi">0</span>)</button>
+                    <button class="btn-warn" onclick="pdfAktar(true)">☑️ Seçilenleri PDF (<span class="seciliSayi">0</span>)</button>
+                    <button class="btn-info" onclick="verileriYedekle()">JSON Yedekle</button>
+                    <button class="btn-warn" onclick="document.getElementById('yedekDosya').click()">JSON Yükle</button>
+                    <input type="file" id="yedekDosya" accept=".json" style="display:none;" onchange="verileriGeriYukle(event)">
+                    <button class="btn-indigo" onclick="veriliHtmlIndir()">📱 Telefona Hazır Dosya İndir</button>
+                    <button class="btn-danger" onclick="listeyiTemizle()">Tümünü Sil</button>
+                </div>
 
-    <p>
-        Yaşar Manifatura, ev tekstili sektöründe kalite standartlarını esas alarak
-        faaliyet gösteren, güvenilir ve müşteri odaklı bir firmadır.
-    </p>
+            </div>
+            <div class="admin-section">
+                <h3>2. Otomatik Oran, Yuvarlama & Toplu Gizleme</h3>
+                <div class="calc-box">
+                    <div class="calc-grid">
+                        <div class="calc-card">
+                            <div class="calc-card-title"><span>Satış 1 (S1)</span><span>% Oran</span></div>
+                            <div class="calc-row">
+                                <select id="baz_f1" onchange="oranAyarKaydet()"><option value="alis" selected>Alış +%</option></select>
+                                <input type="number" id="oran_f1" value="25" step="0.1" oninput="oranAyarKaydet()">
+                            </div>
+                        </div>
+                        <div class="calc-card">
+                            <div class="calc-card-title"><span>Satış 2 (S2)</span><span>% Oran</span></div>
+                            <div class="calc-row">
+                                <select id="baz_f2" onchange="oranAyarKaydet()"><option value="alis">Alış +%</option><option value="f1" selected>S1 +%</option></select>
+                                <input type="number" id="oran_f2" value="10" step="0.1" oninput="oranAyarKaydet()">
+                            </div>
+                        </div>
+                        <div class="calc-card">
+                            <div class="calc-card-title"><span>Satış 3 (S3)</span><span>% Oran</span></div>
+                            <div class="calc-row">
+                                <select id="baz_f3" onchange="oranAyarKaydet()"><option value="alis">Alış +%</option><option value="f1">S1 +%</option><option value="f2" selected>S2 +%</option></select>
+                                <input type="number" id="oran_f3" value="10" step="0.1" oninput="oranAyarKaydet()">
+                            </div>
+                        </div>
+                        <div class="calc-card">
+                            <div class="calc-card-title"><span>Satış 4 (S4)</span><span>% Oran</span></div>
+                            <div class="calc-row">
+                                <select id="baz_f4" onchange="oranAyarKaydet()"><option value="alis">Alış +%</option><option value="f1">S1 +%</option><option value="f2">S2 +%</option><option value="f3" selected>S3 +%</option></select>
+                                <input type="number" id="oran_f4" value="10" step="0.1" oninput="oranAyarKaydet()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="calc-actions">
+                        <label style="font-size:12px;font-weight:700;color:#1e3a8a;">Yukarı Yuvarla:
+                            <select id="yuvarlamaSec" onchange="oranAyarKaydet()" style="margin-left:4px;font-weight:700;">
+                                <option value="0">Yuvarlama Yok (Kuruşlu)</option>
+                                <option value="1" selected>1 TL Katlarına (Yukarı)</option>
+                                <option value="2">2 TL Katlarına (Yukarı)</option>
+                                <option value="3">3 TL Katlarına (Yukarı)</option>
+                                <option value="5">5 TL Katlarına (Yukarı)</option>
+                                <option value="10">10 TL Katlarına (Yukarı)</option>
+                                <option value="50">50 TL Katlarına (Yukarı)</option>
+                                <option value="100">100 TL Katlarına (Yukarı)</option>
+                            </select>
+                        </label>
+                        <div style="display:flex;flex-wrap:wrap;gap:5px;">
+                            <button class="btn-success" onclick="topluFiyatHesaplaUygula()">⚡ Oran Uygula (<span id="hedefUrunSayisi">0</span>)</button>
+                            <button class="btn-warn" onclick="topluGizleDurum(true)">🙈 Listelenenleri Gizle</button>
+                            <button class="btn-teal" onclick="topluGizleDurum(false)">👁️ Listelenenleri Aç</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <ul>
-        <li>Geniş ürün yelpazesi</li>
-        <li>Toptan & perakende satış</li>
-        <li>Kalite ve müşteri memnuniyeti</li>
-        <li>Güvenilir ticaret anlayışı</li>
-    </ul>
-</section>
+        <div id="sekme_personel" class="tab-content">
+            <div class="admin-section">
+                <h3>Personel Ekleme, Şifre & Görünüm Yetkileri</h3>
+                <div class="form-grid">
+                    <div class="form-group"><label>Personel / Kullanıcı Adı</label><input type="text" id="yeniKullaniciAdi" placeholder="Örn: Ahmet (Plasiyer)"></div>
+                    <div class="form-group"><label>Giriş Şifresi *</label><input type="text" id="yeniKullaniciSifre" placeholder="Örn: 5678"></div>
+                    <div class="form-group"><label>Yönetici Şifresini Değiştir</label><div style="display:flex;gap:4px;"><input type="text" id="yeniAdminSifre" placeholder="Yeni şifre" style="flex:1;min-width:0;"><button class="btn-gray" onclick="sifreGuncelle()">Güncelle</button></div></div>
+                </div>
+                <div class="perm-checks">
+                    <strong>Görebileceği Alanlar:</strong>
+                    <label><input type="checkbox" id="yetki_kod" checked> Stok Kodu</label>
+                    <label><input type="checkbox" id="yetki_barkod" checked> Barkod</label>
+                    <label><input type="checkbox" id="yetki_aciklama"> Açıklama</label>
+                    <label><input type="checkbox" id="yetki_alis"> Alış</label>
+                    <label><input type="checkbox" id="yetki_f1" checked> Satış 1</label>
+                    <label><input type="checkbox" id="yetki_f2"> Satış 2</label>
+                    <label><input type="checkbox" id="yetki_f3"> Satış 3</label>
+                    <label><input type="checkbox" id="yetki_f4"> Satış 4</label>
+                    <button class="btn-primary" onclick="kullaniciKaydet()">+ Personel Kaydet</button>
+                </div>
+                <div id="kullaniciListesi" class="user-list"></div>
+            </div>
+        </div>
 
-<footer class="footer">
-    © 2025 Yaşar Manifatura – Tüm Hakları Saklıdır        
-    <div class="made-by">ErtuStudio tarafından yapılmıştır</div>
-</footer>
-  
-<audio id="bgMusic"></audio>
+        <div id="sekme_firma" class="tab-content">
+            <div class="admin-section">
+                <h3>Yeni Firma Oluştur & Abonelik Kontrolü</h3>
+                <div class="form-grid">
+                    <div class="form-group"><label>Firma Kodu (Boşluksuz) *</label><input type="text" id="yeniFirmaKodu" placeholder="Örn: yilmaz" style="text-transform:lowercase;"></div>
+                    <div class="form-group"><label>Firma Ünvanı / Adı *</label><input type="text" id="yeniFirmaAdi" placeholder="Örn: Yılmaz Ticaret"></div>
+                    <div class="form-group"><label>Firma Yönetici Şifresi *</label><input type="text" id="yeniFirmaSifre" value="1234"></div>
+                    <div class="form-group" style="justify-content:flex-end;">
+                        <button type="button" class="btn-primary" onclick="yeniFirmaOlustur()">+ Yeni Firma Aç</button>
+                    </div>
+                </div>
+                <div id="firmaListesiKutu" class="user-list"></div>
+            </div>
+        </div>
+    </div>
 
-<script src="script.js"></script>
+       <div class="search-area">
+        <input type="text" id="aramaKutusu" placeholder="Ürün ismi, kod, barkod, ses veya kamera..." oninput="tabloyuGuncelle()">
+        <label id="gizliFiltreKutu" style="display:none;align-items:center;gap:4px;background:#fef3c7;border:1px solid #fcd34d;color:#92400e;padding:6px 8px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;">
+            <input type="checkbox" id="sadeceGizlilerCheck" onchange="tabloyuGuncelle()"> 🙈 Sadece Gizliler
+        </label>
+        <button type="button" class="btn-gray" onclick="aramayiTemizle()" title="Temizle">✕</button>
+        <button type="button" id="btnSesliArama" class="btn-mic" onclick="sesliAramaBaslat()" title="Sesle Ara">🎤</button>
+        <button type="button" class="btn-cam" onclick="kamerayiAc()" title="Kamera / Barkod">📷</button>
+        <span class="count-pill"><span id="urunSayaci">0</span> Ürün</span>
+    </div>
+
+
+        <table>
+                                <thead>
+                <tr>
+                    <th style="width:32px;text-align:center;"><input type="checkbox" id="tumunuSecCheck" onchange="tumunuSecDegistir(this.checked)" title="Listelenenlerin Tümünü Seç"></th>
+                    <th id="th_kod" onclick="sirala('kod')" style="cursor:pointer;">Stok Kodu <span id="srt_kod"></span></th>
+                    <th id="th_barkod" onclick="sirala('barkod')" style="cursor:pointer;">Barkod <span id="srt_barkod"></span></th>
+                    <th onclick="sirala('isim')" style="cursor:pointer;">Ürün İsmi <span id="srt_isim"></span></th>
+                    <th id="th_aciklama" onclick="sirala('aciklama')" style="cursor:pointer;">Açıklama <span id="srt_aciklama"></span></th>
+                    <th id="th_alis" class="text-right" onclick="sirala('alis')" style="cursor:pointer;">Alış <span id="srt_alis"></span></th>
+                    <th id="th_f1" class="text-right" onclick="sirala('f1')" style="cursor:pointer;">Satış 1 <span id="srt_f1"></span></th>
+                    <th id="th_f2" class="text-right" onclick="sirala('f2')" style="cursor:pointer;">Satış 2 <span id="srt_f2"></span></th>
+                    <th id="th_f3" class="text-right" onclick="sirala('f3')" style="cursor:pointer;">Satış 3 <span id="srt_f3"></span></th>
+                    <th id="th_f4" class="text-right" onclick="sirala('f4')" style="cursor:pointer;">Satış 4 <span id="srt_f4"></span></th>
+                    <th id="th_gizli" class="text-center" onclick="sirala('gizli')" style="cursor:pointer;">Gizli <span id="srt_gizli"></span></th>
+                    <th id="th_islem" class="text-right">İşlem</th>
+                </tr>
+            </thead>
+
+            </thead>
+
+            <tbody id="urunListesiGovde"></tbody>
+        </table>
+    </div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
